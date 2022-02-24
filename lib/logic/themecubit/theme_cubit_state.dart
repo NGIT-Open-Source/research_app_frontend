@@ -6,9 +6,9 @@ abstract class ThemeState {
 }
 
 class LightTheme extends ThemeState {
-  LightTheme({required ThemeData themeData}) : super(themeData: themeData);
+  LightTheme() : super(themeData: AppTheme.lightTheme);
 }
 
 class DarkTheme extends ThemeState {
-  DarkTheme({required ThemeData themeData}) : super(themeData: themeData);
+  DarkTheme() : super(themeData: AppTheme.darkTheme);
 }

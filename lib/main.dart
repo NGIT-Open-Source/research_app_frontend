@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:researchapp/logic/themecubit/theme_cubit.dart';
 import 'package:researchapp/router.dart';
-import 'package:researchapp/ui/screens/splashscreen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bloc/bloc.dart';
+import "package:hive_flutter/hive_flutter.dart";
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox("main");
   runApp(MyApp());
 }
 
