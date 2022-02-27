@@ -31,11 +31,13 @@ class ThemeCubit extends Cubit<ThemeState> {
       emit(LightTheme());
     }
 
-    String gettheme() {
+    
+  }
+
+String gettheme() {
       if (state is LightTheme)
         return "Light";
       else
         return "Dark";
     }
-  }
 }

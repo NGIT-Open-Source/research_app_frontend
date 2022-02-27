@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:researchapp/logic/splashscreen/splashscreen_cubit.dart';
 import 'package:researchapp/logic/themecubit/theme_cubit.dart';
 import 'package:researchapp/router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => ThemeCubit(),
         ),
+        BlocProvider(
+          create: (context) => SplashscreenCubit(),
+        )
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, themestate) {
