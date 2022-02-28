@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:researchapp/constants.dart';
 import 'package:researchapp/logic/splashscreen/splashscreen_cubit.dart';
-import 'package:researchapp/logic/themecubit/theme_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../logic/themecubit/theme_cubit.dart';
+import '../widgets.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -14,13 +16,8 @@ class SplashScreen extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          BlocProvider.of<ThemeCubit>(context).changetheme();
-        }),
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("DIAGMASTER"),
-        ),
+        floatingActionButton: FloatingActionButtonn(context),
+        appBar: AppBarr,
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -75,16 +72,18 @@ class SplashScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             InkWell(
-                              onTap: (){},
+                              onTap: () {
+                                Navigator.pushNamed(context, LOGIN_PAGE);
+                              },
                               child: Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                       width: 1.5,
-                                      color:
-                                          context.read<ThemeCubit>().gettheme() ==
-                                                  "Dark"
-                                              ? Colors.white
-                                              : Colors.black),
+                                      color: context
+                                          .read<ThemeCubit>()
+                                          .state
+                                          .themeData
+                                          .primaryColor),
                                   borderRadius: BorderRadius.circular(20.0),
                                 ),
                                 height: height / 11,
@@ -101,18 +100,17 @@ class SplashScreen extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
-                                
+                                Navigator.pushNamed(context, SIGNUP_PAGE);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                         width: 1.5,
                                         color: context
-                                                    .read<ThemeCubit>()
-                                                    .gettheme() ==
-                                                "Dark"
-                                            ? Colors.white
-                                            : Colors.black),
+                                            .read<ThemeCubit>()
+                                            .state
+                                            .themeData
+                                            .primaryColor),
                                     borderRadius: BorderRadius.circular(20.0)),
                                 height: height / 11,
                                 width: width / 3,

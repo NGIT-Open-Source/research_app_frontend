@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:researchapp/logic/logincubit/logincubit_cubit.dart';
 import 'package:researchapp/logic/splashscreen/splashscreen_cubit.dart';
 import 'package:researchapp/logic/themecubit/theme_cubit.dart';
 import 'package:researchapp/router.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SplashscreenCubit(),
+        ),
+        BlocProvider(
+          create: ((context) => LogincubitCubit()),
         )
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
