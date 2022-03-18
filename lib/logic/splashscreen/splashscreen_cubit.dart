@@ -34,6 +34,7 @@ class SplashscreenCubit extends Cubit<SplashscreenState> {
         if (jwt != null) {
           if (checkjwt(jwt)) {
             //route them to homescreen
+            
             emit(ToHome());
           } else {
             //jwt expired (session expired show login/signup)

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:researchapp/constants.dart';
+import 'package:researchapp/logic/auth_status/authstatus_cubit.dart';
 import 'package:researchapp/logic/splashscreen/splashscreen_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,6 +44,7 @@ class SplashScreen extends StatelessWidget {
                   listener: (context, state) {
                     // TODO: implement listener
                     if (state is ToHome) {
+                      context.read<AuthstatusCubit>().login();
                       Navigator.pushReplacementNamed(context, HOME_ROUTE);
                     } else if (state is SessionExpired) {
                       ScaffoldMessenger.of(context).showSnackBar(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:researchapp/constants.dart';
+import 'package:researchapp/logic/auth_status/authstatus_cubit.dart';
 import 'package:researchapp/logic/logincubit/logincubit_cubit.dart';
 import 'package:researchapp/logic/themecubit/theme_cubit.dart';
 import 'package:researchapp/ui/widgets.dart';
@@ -90,6 +91,7 @@ class _LoginState extends State<Login> {
               } else if (state is LoginError) {
                 showtoast("Weird Error !");
               } else if (state is LoginSuccess) {
+                context.read<AuthstatusCubit>().login();
                 Navigator.pushNamedAndRemoveUntil(
                     context, HOME_ROUTE, (route) => false);
               }
