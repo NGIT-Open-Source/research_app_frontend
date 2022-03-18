@@ -17,6 +17,9 @@ class AppTheme {
           fontSize: 23, fontWeight: FontWeight.w300, color: Colors.black),
       bodyText2: TextStyle(color: Colors.black),
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.blue))),
     tabBarTheme: TabBarTheme(unselectedLabelColor: Colors.black),
     appBarTheme: AppBarTheme(
         iconTheme: IconThemeData(color: Colors.black),
@@ -32,6 +35,10 @@ class AppTheme {
     primaryColor: Color.fromARGB(255, 82, 27, 165),
     canvasColor: Color(0xFF121212),
     iconTheme: IconThemeData(color: Colors.white),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all(Color.fromRGBO(0, 150, 136, 1)))),
     textTheme: TextTheme(
       headline1: GoogleFonts.anton(
           fontSize: 35, fontWeight: FontWeight.w300, color: Colors.white),

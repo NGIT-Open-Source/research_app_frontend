@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:researchapp/constants.dart';
 import 'package:researchapp/logic/logincubit/logincubit_cubit.dart';
+import 'package:researchapp/logic/themecubit/theme_cubit.dart';
 import 'package:researchapp/ui/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -16,6 +20,14 @@ class _LoginState extends State<Login> {
   final passwordkey = GlobalKey<FormState>();
   final userfield = TextEditingController();
   final pwdfield = TextEditingController();
+  showtoast(String message) {
+    Fluttertoast.showToast(
+      msg: message, // message
+      toastLength: Toast.LENGTH_SHORT, // length
+      gravity: ToastGravity.BOTTOM, // location
+      timeInSecForIosWeb: 1,
+    );
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,20 +81,44 @@ class _LoginState extends State<Login> {
           Container(
             height: 30,
           ),
-          BlocBuilder<LogincubitCubit, LogincubitState>(
+          BlocConsumer<LogincubitCubit, LogincubitState>(
+            listener: ((context, state) {
+              if (state is PasswordError) {
+                showtoast("Incorrect Password !");
+              } else if (state is UserNotFound) {
+                showtoast("User not found !");
+              } else if (state is LoginError) {
+                showtoast("Weird Error !");
+              } else if (state is LoginSuccess) {
+                Navigator.pushNamedAndRemoveUntil(
+                    context, HOME_ROUTE, (route) => false);
+              }
+            }),
             builder: (context, state) {
-              return ElevatedButton(
-                  onPressed: () {
-                    if (usernamekey.currentState!.validate()) {
-                      if (passwordkey.currentState!.validate()) {
-                        //you are cool to continue
-                        context.read<LogincubitCubit>().login(
-                            userfield.value.toString(),
-                            pwdfield.value.toString());
+              if (state is LogincubitInitial) {
+                return ElevatedButton(
+                    onPressed: () {
+                      if (usernamekey.currentState!.validate()) {
+                        if (passwordkey.currentState!.validate()) {
+                          //you are cool to continue
+                          context
+                              .read<LogincubitCubit>()
+                              .login(userfield.text, pwdfield.text);
+                        }
                       }
-                    }
-                  },
-                  child: Text("Submit"));
+                    },
+                    child: Text("Submit"));
+              } else if (state is LoginLoad) {
+                return SpinKitRotatingCircle(
+                  color: context.read<ThemeCubit>().gettheme() == "Light"
+                      ? Colors.black
+                      : Colors.teal,
+                  size: 50.0,
+                );
+              } else
+                return Container(
+                  child: Text("oomf state"),
+                );
             },
           )
         ]),

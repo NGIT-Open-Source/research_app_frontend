@@ -28,6 +28,7 @@ class SplashscreenCubit extends Cubit<SplashscreenState> {
       //else if user doesnot exist then re route to login page
 
       var user = box.get("user");
+      print(user);
       if (user != null) {
         var jwt = box.get("jwt");
         if (jwt != null) {
