@@ -44,7 +44,7 @@ class SplashScreen extends StatelessWidget {
                   listener: (context, state) {
                     // TODO: implement listener
                     if (state is ToHome) {
-                      context.read<AuthstatusCubit>().login();
+                      context.read<AuthstatusCubit>().login(state.name);
                       Navigator.pushReplacementNamed(context, HOME_ROUTE);
                     } else if (state is SessionExpired) {
                       ScaffoldMessenger.of(context).showSnackBar(

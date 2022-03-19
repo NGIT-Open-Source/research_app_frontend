@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:researchapp/logic/auth_status/authstatus_cubit.dart';
 import 'package:researchapp/logic/logincubit/logincubit_cubit.dart';
+import 'package:researchapp/logic/signupcubit/signup_cubit.dart';
 import 'package:researchapp/logic/splashscreen/splashscreen_cubit.dart';
 import 'package:researchapp/logic/themecubit/theme_cubit.dart';
 import 'package:researchapp/router.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AuthstatusCubit(),
         ),
+        BlocProvider(create: (context) => SignupCubit(authService: authService)),
         BlocProvider(
           create: (context) => ThemeCubit(),
         ),

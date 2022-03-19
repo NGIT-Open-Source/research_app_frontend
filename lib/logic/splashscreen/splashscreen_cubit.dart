@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import "package:jwt_decoder/jwt_decoder.dart";
 
 part 'splashscreen_state.dart';
 
@@ -13,7 +14,7 @@ class SplashscreenCubit extends Cubit<SplashscreenState> {
   }
 
   bool checkjwt(String jwt) {
-    return true;
+    return !JwtDecoder.isExpired(jwt);
   }
 
   void initialize() async {
@@ -34,8 +35,8 @@ class SplashscreenCubit extends Cubit<SplashscreenState> {
         if (jwt != null) {
           if (checkjwt(jwt)) {
             //route them to homescreen
-            
-            emit(ToHome());
+
+            emit(ToHome(name: user));
           } else {
             //jwt expired (session expired show login/signup)
             emit(SessionExpired());

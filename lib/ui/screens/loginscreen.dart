@@ -26,7 +26,7 @@ class _LoginState extends State<Login> {
       msg: message, // message
       toastLength: Toast.LENGTH_SHORT, // length
       gravity: ToastGravity.BOTTOM, // location
-      timeInSecForIosWeb: 1,
+      timeInSecForIosWeb: 4,
     );
   }
 
@@ -84,14 +84,14 @@ class _LoginState extends State<Login> {
           ),
           BlocConsumer<LogincubitCubit, LogincubitState>(
             listener: ((context, state) {
-              if (state is PasswordError) {
+              if (state is PasswordErrorState) {
                 showtoast("Incorrect Password !");
               } else if (state is UserNotFound) {
                 showtoast("User not found !");
               } else if (state is LoginError) {
                 showtoast("Weird Error !");
               } else if (state is LoginSuccess) {
-                context.read<AuthstatusCubit>().login();
+                context.read<AuthstatusCubit>().login(state.name);
                 Navigator.pushNamedAndRemoveUntil(
                     context, HOME_ROUTE, (route) => false);
               }
@@ -118,9 +118,11 @@ class _LoginState extends State<Login> {
                   size: 50.0,
                 );
               } else
-                return Container(
-                  child: Text("oomf state"),
-                );
+                return ElevatedButton(
+                    onPressed: () {
+                      context.read<LogincubitCubit>().reload();
+                    },
+                    child: Text("Retry"));
             },
           )
         ]),

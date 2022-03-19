@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:researchapp/logic/signupcubit/signup_cubit.dart';
 import 'package:researchapp/ui/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../../logic/themecubit/theme_cubit.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -19,6 +24,15 @@ class _SignUpState extends State<SignUp> {
   final pwdccontroller = TextEditingController();
   final emailcontroller = TextEditingController();
   final txtcontroller = TextEditingController();
+
+  showtoast(String message) {
+    Fluttertoast.showToast(
+      msg: message, // message
+      toastLength: Toast.LENGTH_SHORT, // length
+      gravity: ToastGravity.BOTTOM, // location
+      timeInSecForIosWeb: 4,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,19 +137,50 @@ class _SignUpState extends State<SignUp> {
             Container(
               height: 30,
             ),
-            ElevatedButton(
-                onPressed: () {
-                  if (emailkey.currentState!.validate()) {
-                    if (usernamekey.currentState!.validate()) {
-                      if (passwordkey.currentState!.validate()) {
-                        if (pwdckey.currentState!.validate()) {
-                          print(usernamecont.value.text);
-                        }
-                      }
-                    }
-                  }
-                },
-                child: Text("Sign Up"))
+            BlocConsumer<SignupCubit, SignupState>(
+              listener: ((context, state) {
+                if (state is SignUpSucess)
+                  showtoast("Signup success");
+                else if (state is EmailExists)
+                  showtoast("email already exists");
+                else if (state is SignUpFail) showtoast("signup had failed");
+              }),
+              builder: (context, state) {
+                if (state is SignupInitial) {
+                  return Container(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          if (emailkey.currentState!.validate()) {
+                            if (usernamekey.currentState!.validate()) {
+                              if (passwordkey.currentState!.validate()) {
+                                if (pwdckey.currentState!.validate()) {
+                                  context.read<SignupCubit>().signup(
+                                      usernamecont.text,
+                                      pwdccontroller.text,
+                                      emailcontroller.text);
+                                }
+                              }
+                            }
+                          }
+                        },
+                        child: Text("Sign Up")),
+                  );
+                } else if (state is SignUpLoad) {
+                  return SpinKitRotatingCircle(
+                    color: context.read<ThemeCubit>().gettheme() == "Light"
+                        ? Colors.black
+                        : Colors.teal,
+                    size: 50.0,
+                  );
+                } else {
+                  return ElevatedButton(
+                      onPressed: () {
+                        context.read<SignupCubit>().reload();
+                      },
+                      child: Text("retry"));
+                }
+              },
+            )
           ],
         ),
       ),

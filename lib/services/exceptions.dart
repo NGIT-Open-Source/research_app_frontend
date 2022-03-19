@@ -19,8 +19,8 @@ class APIKeyError extends AppException {
       : super(message: message, prefix: "API Key not found in headers");
 }
 
-class UserNotFound extends AppException {
-  UserNotFound([message])
+class UserNotFoundError extends AppException {
+  UserNotFoundError([message])
       : super(message: message, prefix: "User not found in the database");
 }
 
@@ -29,8 +29,8 @@ class PasswordError extends AppException {
       : super(message: message, prefix: "Password mismatch");
 }
 
-class ImproperCall extends AppException {
-  ImproperCall([message])
+class ImproperCallError extends AppException {
+  ImproperCallError([message])
       : super(
             message: message,
             prefix: "API Call soesn't have required parameters");
@@ -39,4 +39,9 @@ class ImproperCall extends AppException {
 class InternetError extends AppException {
   InternetError([message])
       : super(message: message, prefix: "Internet connection not found");
+}
+
+class EmailAlreadyExistsError extends AppException
+{
+  EmailAlreadyExistsError([message]):super(message: message,prefix: "Email already Exists");
 }

@@ -5,13 +5,15 @@ abstract class LogincubitState {}
 
 class LogincubitInitial extends LogincubitState {}
 
-class LoginLoad extends LogincubitState{}
+class LoginLoad extends LogincubitState {}
 
-class LoginSuccess extends LogincubitState{}
+class LoginSuccess extends LogincubitState {
+  String name;
+  LoginSuccess({required this.name});
+}
 
-class PasswordError extends LogincubitState {}
+class PasswordErrorState extends LogincubitState {}
 
-class UserNotFound extends LogincubitState{}
+class UserNotFound extends LogincubitState {}
 
 class LoginError extends LogincubitState {}
-
