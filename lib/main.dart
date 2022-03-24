@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:researchapp/logic/auth_status/authstatus_cubit.dart';
+import 'package:researchapp/logic/file_upload/file_uploadf_cubit.dart';
 import 'package:researchapp/logic/logincubit/logincubit_cubit.dart';
 import 'package:researchapp/logic/signupcubit/signup_cubit.dart';
 import 'package:researchapp/logic/splashscreen/splashscreen_cubit.dart';
@@ -8,6 +9,8 @@ import 'package:researchapp/router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:hive_flutter/hive_flutter.dart";
 import 'package:researchapp/services/auth_service.dart';
+import 'package:researchapp/logic/add_patient/addpatient_cubit.dart';
+import 'package:researchapp/services/file_upload.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -19,6 +22,7 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
   final AppRouter appRouter = AppRouter();
   final AuthService authService = AuthService();
+  final FileUploader fileUploader = FileUploader();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +31,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AuthstatusCubit(),
         ),
-        BlocProvider(create: (context) => SignupCubit(authService: authService)),
+        BlocProvider(
+            create: (context) => SignupCubit(authService: authService)),
         BlocProvider(
           create: (context) => ThemeCubit(),
         ),
@@ -36,7 +41,13 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: ((context) => LogincubitCubit(authService: authService)),
-        )
+        ),
+        BlocProvider(
+          create: (context) => AddpatientCubit(),
+        ),
+        BlocProvider(
+          create: ((context) => FileUploadfCubit(fileUploader: fileUploader)),
+        ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, themestate) {

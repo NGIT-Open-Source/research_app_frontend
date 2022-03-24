@@ -5,3 +5,4 @@ const REGISTER_PAGE = "/register";
 const LOGIN_PAGE = "/login";
 const SIGNUP_PAGE = "/signup";
 
+const ADD_PATIENT = "/addpatient";
