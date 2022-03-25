@@ -25,7 +25,6 @@ class _HomeState extends State<Home> {
       builder: (context, state) {
         if (state is LoggedIn) {
           return Scaffold(
-            floatingActionButton: FloatingActionButtonn(context),
             appBar: AppBar(
               actions: [
                 Padding(

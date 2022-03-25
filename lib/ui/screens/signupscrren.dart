@@ -39,7 +39,6 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBarr,
-      floatingActionButton: FloatingActionButtonn(context),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(

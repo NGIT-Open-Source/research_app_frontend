@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:researchapp/logic/add_case/add_case_cubit.dart';
+import 'package:researchapp/logic/add_subcase/add_subcase_cubit.dart';
 import 'package:researchapp/logic/auth_status/authstatus_cubit.dart';
 import 'package:researchapp/logic/sub_cases/viewsubcases_cubit.dart';
 import 'package:researchapp/logic/view_cases/view_cases_cubit.dart';
@@ -62,6 +64,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ViewsubcasesCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AddCaseCubit(dataClass: dataClass),
+        ),
+        BlocProvider(
+          create: (context) => AddSubcaseCubit(dataClass: dataClass),
         )
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(

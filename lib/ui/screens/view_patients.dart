@@ -69,6 +69,8 @@ class _ViewPatientsState extends State<ViewPatients> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
+                            context.read<ViewCasesCubit>().patientname =
+                                state.patients[index];
                             context
                                 .read<ViewCasesCubit>()
                                 .showcases(state.cases[state.patients[index]]);

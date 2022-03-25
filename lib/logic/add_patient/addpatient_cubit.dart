@@ -19,7 +19,7 @@ class AddpatientCubit extends Cubit<AddpatientState> {
     bool result = false;
     String JWT = box.get("jwt");
     try {
-      result = await dataClass.addPatient(
+      result = await dataClass.add(
           patientname, label, description, FileID, JWT);
     } catch (e) {
       result = false;

@@ -17,7 +17,6 @@ class SplashScreen extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButtonn(context),
         appBar: AppBarr,
         body: Padding(
           padding: const EdgeInsets.all(8.0),

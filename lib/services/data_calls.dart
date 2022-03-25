@@ -5,7 +5,7 @@ import 'package:researchapp/env.dart';
 import 'package:researchapp/services/exceptions.dart';
 
 class DataClass {
-  Future<bool> addPatient(String name, String casename, String desc,
+  Future<bool> add(String name, String casename, String desc,
       String fileid, String jwt) async {
     try {
       var response = await http.post(

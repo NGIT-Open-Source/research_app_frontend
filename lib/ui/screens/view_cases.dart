@@ -34,12 +34,15 @@ class _ViewCasesState extends State<ViewCases> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(FontAwesomeIcons.plus))
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, ADD_CASE);
+              },
+              icon: Icon(FontAwesomeIcons.plus))
         ],
         title: Text("DIAGMASTER"),
         centerTitle: true,
       ),
-      floatingActionButton: FloatingActionButtonn(context),
       body: Container(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -64,6 +67,12 @@ class _ViewCasesState extends State<ViewCases> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
+                            // patient name set
+                            context.read<ViewsubcasesCubit>().patientname =
+                                context.read<ViewCasesCubit>().patientname;
+                            //case name set
+                            context.read<ViewsubcasesCubit>().casename =
+                                state.cases[index];
                             context.read<ViewsubcasesCubit>().showsubcases(
                                 state.subcases[state.cases[index]]);
                             Navigator.pushNamed(context, VIEW_SUB_CASES);

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:researchapp/constants.dart';
 import 'package:researchapp/models/sub_case_model.dart';
+import 'package:researchapp/ui/screens/add_case.dart';
+import 'package:researchapp/ui/screens/add_subcase.dart';
 import 'package:researchapp/ui/screens/addnewpatient.dart';
 import 'package:researchapp/ui/screens/sub_cases.dart';
 import 'package:researchapp/ui/screens/view_cases.dart';
@@ -32,6 +34,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => ViewCases());
       case VIEW_SUB_CASES:
         return MaterialPageRoute(builder: (_) => SubCases());
+      case ADD_CASE:
+        return MaterialPageRoute(builder: (_) => AddCase());
+      case ADD_SUB_CASE:
+        return MaterialPageRoute(builder: (_) => AddSubCase());
       default:
         return null;
     }

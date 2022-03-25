@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:researchapp/logic/add_patient/addpatient_cubit.dart';
+import 'package:researchapp/logic/add_case/add_case_cubit.dart';
+import 'package:researchapp/logic/add_subcase/add_subcase_cubit.dart';
 import 'package:researchapp/logic/file_upload/file_uploadf_cubit.dart';
 import 'package:researchapp/logic/themecubit/theme_cubit.dart';
+import '../../logic/sub_cases/viewsubcases_cubit.dart';
+import '../../logic/view_cases/view_cases_cubit.dart';
 import '../widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,14 +15,20 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class AddPatient extends StatefulWidget {
-  AddPatient({Key? key}) : super(key: key);
+class AddSubCase extends StatefulWidget {
+  AddSubCase({Key? key}) : super(key: key);
 
   @override
-  State<AddPatient> createState() => _AddPatientState();
+  State<AddSubCase> createState() => _AddSubCaseState();
 }
 
-class _AddPatientState extends State<AddPatient> {
+class _AddSubCaseState extends State<AddSubCase> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<FileUploadfCubit>().reload();
+  }
+
   showtoast(String message) {
     Fluttertoast.showToast(
       msg: message, // message
@@ -29,15 +38,6 @@ class _AddPatientState extends State<AddPatient> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    context.read<FileUploadfCubit>().reload();
-    context.read<AddpatientCubit>().reload();
-  }
-
-  var namecontroller = TextEditingController();
-  var casen = TextEditingController();
   var descont = TextEditingController();
   var fkey = GlobalKey<FormState>();
   @override
@@ -64,24 +64,12 @@ class _AddPatientState extends State<AddPatient> {
                   child: Container(
                     padding: EdgeInsets.all(10),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           "Name of the patient",
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 30),
-                          child: TextFormField(
-                            validator: ((value) {
-                              if (value == null || value.isEmpty)
-                                return 'Please enter some text';
-                              else if (value.length < 5)
-                                return "Enter a longer name";
-                              return null;
-                            }),
-                            controller: namecontroller,
-                          ),
-                        )
+                        Text("${context.read<ViewsubcasesCubit>().patientname}")
                       ],
                     ),
                   ),
@@ -95,20 +83,7 @@ class _AddPatientState extends State<AddPatient> {
                         Text(
                           "Case Name",
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 30),
-                          child: TextFormField(
-                            validator: ((value) {
-                              if (value == null || value.isEmpty)
-                                return 'Please enter some text';
-                              else if (value.length < 5)
-                                return "Enter a longer casename";
-                              return null;
-                            }),
-                            controller: casen,
-                          ),
-                        )
+                        Text(("${context.read<ViewsubcasesCubit>().casename}"))
                       ],
                     ),
                   ),
@@ -201,8 +176,19 @@ class _AddPatientState extends State<AddPatient> {
                             size: 50.0,
                           );
                         } else if (state is FileUploadSuccess) {
-                          return Container(
-                              child: Center(child: Text("File was uploaded")));
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                  child:
+                                      Center(child: Text("File was uploaded"))),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    context.read<FileUploadfCubit>().reload();
+                                  },
+                                  child: Text("Reload")),
+                            ],
+                          );
                         } else {
                           return Container(
                             child: Text("oomf state"),
@@ -212,72 +198,65 @@ class _AddPatientState extends State<AddPatient> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: BlocBuilder<FileUploadfCubit, FileUploadfState>(
-                    builder: (context, filestate) {
-                      return BlocConsumer<AddpatientCubit, AddpatientState>(
-                        listener: (context, state) {
-                          if (state is AddPatientError)
-                            showtoast("There was an error adding the patient");
-                        },
-                        builder: (context, state) {
-                          if (state is AddpatientInitial)
-                            return ElevatedButton(
-                                onPressed: () {
-                                  if (fkey.currentState!.validate()) {
-                                    if (filestate is FileUploadSuccess) {
-                                      {
+                BlocBuilder<FileUploadfCubit, FileUploadfState>(
+                  builder: (context, filestate) {
+                    return BlocBuilder<AddSubcaseCubit, AddSubcaseState>(
+                      builder: (context, state) {
+                        if (state is AddSubcaseInitial) {
+                          return ElevatedButton(
+                              onPressed: () {
+                                if (fkey.currentState!.validate()) {
+                                  if (filestate is FileUploadSuccess) {
+                                    context.read<AddSubcaseCubit>().addcase(
                                         context
-                                            .read<AddpatientCubit>()
-                                            .addpatient(
-                                                namecontroller.text,
-                                                casen.text,
-                                                descont.text,
-                                                filestate.id);
-                                      }
-                                    } else
-                                      showtoast("Upload a DICOM First!");
-                                  }
-                                },
-                                child: Text("Add"));
-                          else if (state is AddPatientLoad) {
-                            return SpinKitRotatingCircle(
-                              color: context.read<ThemeCubit>().gettheme() ==
-                                      "Light"
-                                  ? Colors.black
-                                  : Colors.teal,
-                              size: 50.0,
-                            );
-                          } else if (state is AddPatientSuccess) {
-                            return Column(
-                              children: [
-                                Container(
-                                  child: Text("Patient Added sucesssfully"),
-                                ),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      context.read<FileUploadfCubit>().reload();
-                                      context.read<AddpatientCubit>().reload();
-                                    },
-                                    child: Text("Add another"))
-                              ],
-                            );
-                          } else if (state is AddPatientError) {
-                            return ElevatedButton(
-                                onPressed: () {
-                                  context.read<FileUploadfCubit>().reload();
-                                  context.read<AddpatientCubit>().reload();
-                                },
-                                child: Text("Error:Retry"));
-                          } else
-                            return Container(
-                              child: Text("oomf state"),
-                            );
-                        },
-                      );
-                    },
-                  ),
+                                            .read<ViewCasesCubit>()
+                                            .patientname,
+                                        context
+                                            .read<ViewsubcasesCubit>()
+                                            .casename,
+                                        descont.text,
+                                        filestate.id);
+                                  } else
+                                    showtoast("Upload a DICOM first!");
+                                }
+                              },
+                              child: Text("Add"));
+                        } else if (state is AddSubcaseLoad) {
+                          return SpinKitRotatingCircle(
+                            color:
+                                context.read<ThemeCubit>().gettheme() == "Light"
+                                    ? Colors.black
+                                    : Colors.teal,
+                            size: 50.0,
+                          );
+                        } else if (state is AddSubcaseSucess) {
+                          return Column(
+                            children: [
+                              Text("Case was added sucessfully"),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    context.read<AddCaseCubit>().reload();
+                                  },
+                                  child: Text("add another"))
+                            ],
+                          );
+                        } else if (state is AddSubCaseFailure) {
+                          return Column(
+                            children: [
+                              Text("There was an error"),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    context.read<AddCaseCubit>().reload();
+                                  },
+                                  child: Text("Retry"))
+                            ],
+                          );
+                        } else {
+                          return Container(child: Text("oomf state"));
+                        }
+                      },
+                    );
+                  },
                 )
               ],
             ),
