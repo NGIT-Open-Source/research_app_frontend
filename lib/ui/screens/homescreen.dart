@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:researchapp/constants.dart';
-import 'package:researchapp/logic/add_patient/addpatient_cubit.dart';
 import 'package:researchapp/logic/auth_status/authstatus_cubit.dart';
 import 'package:researchapp/logic/themecubit/theme_cubit.dart';
+import '../../logic/splashscreen/splashscreen_cubit.dart';
 import '../widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,7 +31,12 @@ class _HomeState extends State<Home> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        context.read<AuthstatusCubit>().logout();
+                        context.read<SplashscreenCubit>().initialize();
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, SPLASH_SCREEN, (route) => false);
+                      },
                       child: Icon(FontAwesomeIcons.rightFromBracket)),
                 )
               ],
@@ -115,7 +120,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pushNamed(context, SETTINGS);
+                            },
                             child: Container(
                               padding: EdgeInsets.all(10),
                               height: height / 5,

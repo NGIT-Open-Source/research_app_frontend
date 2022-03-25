@@ -211,7 +211,11 @@ class _AddPatientState extends State<AddPatient> {
                   padding: const EdgeInsets.all(10.0),
                   child: BlocBuilder<FileUploadfCubit, FileUploadfState>(
                     builder: (context, filestate) {
-                      return BlocBuilder<AddpatientCubit, AddpatientState>(
+                      return BlocConsumer<AddpatientCubit, AddpatientState>(
+                        listener: (context, state) {
+                          if (state is AddPatientError)
+                            showtoast("There was an error adding the patient");
+                        },
                         builder: (context, state) {
                           if (state is AddpatientInitial)
                             return ElevatedButton(
@@ -232,7 +236,36 @@ class _AddPatientState extends State<AddPatient> {
                                   }
                                 },
                                 child: Text("Add"));
-                          else
+                          else if (state is AddPatientLoad) {
+                            return SpinKitRotatingCircle(
+                              color: context.read<ThemeCubit>().gettheme() ==
+                                      "Light"
+                                  ? Colors.black
+                                  : Colors.teal,
+                              size: 50.0,
+                            );
+                          } else if (state is AddPatientSuccess) {
+                            return Column(
+                              children: [
+                                Container(
+                                  child: Text("Patient Added sucesssfully"),
+                                ),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      context.read<FileUploadfCubit>().reload();
+                                      context.read<AddpatientCubit>().reload();
+                                    },
+                                    child: Text("Add another"))
+                              ],
+                            );
+                          } else if (state is AddPatientError) {
+                            return ElevatedButton(
+                                onPressed: () {
+                                  context.read<FileUploadfCubit>().reload();
+                                  context.read<AddpatientCubit>().reload();
+                                },
+                                child: Text("Error:Retry"));
+                          } else
                             return Container(
                               child: Text("oomf state"),
                             );

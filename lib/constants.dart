@@ -6,3 +6,4 @@ const LOGIN_PAGE = "/login";
 const SIGNUP_PAGE = "/signup";
 
 const ADD_PATIENT = "/addpatient";
+const SETTINGS = "/settings";

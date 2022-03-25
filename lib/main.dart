@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:hive_flutter/hive_flutter.dart";
 import 'package:researchapp/services/auth_service.dart';
 import 'package:researchapp/logic/add_patient/addpatient_cubit.dart';
+import 'package:researchapp/services/data_calls.dart';
 import 'package:researchapp/services/file_upload.dart';
 
 void main() async {
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
   final AppRouter appRouter = AppRouter();
   final AuthService authService = AuthService();
   final FileUploader fileUploader = FileUploader();
+  final DataClass dataClass=DataClass();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
           create: ((context) => LogincubitCubit(authService: authService)),
         ),
         BlocProvider(
-          create: (context) => AddpatientCubit(),
+          create: (context) => AddpatientCubit(dataClass:dataClass ),
         ),
         BlocProvider(
           create: ((context) => FileUploadfCubit(fileUploader: fileUploader)),

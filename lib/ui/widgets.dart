@@ -11,3 +11,4 @@ final AppBarr = AppBar(
 final FloatingActionButtonn = (context) => FloatingActionButton(onPressed: () {
       BlocProvider.of<ThemeCubit>(context).changetheme();
     });
+

@@ -26,4 +26,8 @@ class FileUploadfCubit extends Cubit<FileUploadfState> {
     emit(FileUploadSuccess(id: fileid));
     return fileid;
   }
+
+  void reload() {
+    emit(FileUploadfInitial());
+  }
 }

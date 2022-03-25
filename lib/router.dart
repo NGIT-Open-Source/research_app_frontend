@@ -3,6 +3,7 @@ import 'package:researchapp/constants.dart';
 import 'package:researchapp/ui/screens/addnewpatient.dart';
 import 'package:researchapp/ui/screens/homescreen.dart';
 import 'package:researchapp/ui/screens/loginscreen.dart';
+import 'package:researchapp/ui/screens/settings.dart';
 import 'package:researchapp/ui/screens/signupscrren.dart';
 import 'package:researchapp/ui/screens/splashscreen.dart';
 
@@ -19,6 +20,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => SignUp());
       case ADD_PATIENT:
         return MaterialPageRoute(builder: (_) => AddPatient());
+      case SETTINGS:
+        return MaterialPageRoute(builder: (_) => Settings());
       default:
         return null;
     }
