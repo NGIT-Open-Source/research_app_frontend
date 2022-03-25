@@ -28,6 +28,8 @@ class LogincubitCubit extends Cubit<LogincubitState> {
       emit(UserNotFound());
     } on APIKeyError {
       emit(LoginError());
+    } on InternetError {
+      emit(LoginError());
     }
   }
 
