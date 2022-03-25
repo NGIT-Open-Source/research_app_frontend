@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:researchapp/logic/auth_status/authstatus_cubit.dart';
+import 'package:researchapp/logic/sub_cases/viewsubcases_cubit.dart';
+import 'package:researchapp/logic/view_cases/view_cases_cubit.dart';
 import 'package:researchapp/logic/file_upload/file_uploadf_cubit.dart';
 import 'package:researchapp/logic/logincubit/logincubit_cubit.dart';
 import 'package:researchapp/logic/signupcubit/signup_cubit.dart';
 import 'package:researchapp/logic/splashscreen/splashscreen_cubit.dart';
 import 'package:researchapp/logic/themecubit/theme_cubit.dart';
+import 'package:researchapp/logic/view_patients/view_patients_cubit.dart';
 import 'package:researchapp/router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:hive_flutter/hive_flutter.dart";
@@ -12,6 +15,7 @@ import 'package:researchapp/services/auth_service.dart';
 import 'package:researchapp/logic/add_patient/addpatient_cubit.dart';
 import 'package:researchapp/services/data_calls.dart';
 import 'package:researchapp/services/file_upload.dart';
+import 'package:researchapp/ui/screens/view_cases.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -24,7 +28,7 @@ class MyApp extends StatelessWidget {
   final AppRouter appRouter = AppRouter();
   final AuthService authService = AuthService();
   final FileUploader fileUploader = FileUploader();
-  final DataClass dataClass=DataClass();
+  final DataClass dataClass = DataClass();
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +49,20 @@ class MyApp extends StatelessWidget {
           create: ((context) => LogincubitCubit(authService: authService)),
         ),
         BlocProvider(
-          create: (context) => AddpatientCubit(dataClass:dataClass ),
+          create: (context) => AddpatientCubit(dataClass: dataClass),
         ),
         BlocProvider(
           create: ((context) => FileUploadfCubit(fileUploader: fileUploader)),
         ),
+        BlocProvider(
+          create: (context) => ViewPatientsCubit(dataClass: dataClass),
+        ),
+        BlocProvider(
+          create: (context) => ViewCasesCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ViewsubcasesCubit(),
+        )
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, themestate) {

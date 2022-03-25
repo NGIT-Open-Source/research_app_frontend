@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../theme.dart';
+import '../../ui/theme.dart';
 
 part 'theme_cubit_state.dart';
 

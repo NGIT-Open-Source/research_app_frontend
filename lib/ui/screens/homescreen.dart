@@ -92,7 +92,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pushNamed(context, VIEW_PATIENTS);
+                            },
                             child: Container(
                               padding: EdgeInsets.all(10),
                               height: height / 5,
