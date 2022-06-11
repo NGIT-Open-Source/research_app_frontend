@@ -17,7 +17,6 @@ import 'package:researchapp/services/auth_service.dart';
 import 'package:researchapp/logic/add_patient/addpatient_cubit.dart';
 import 'package:researchapp/services/data_calls.dart';
 import 'package:researchapp/services/file_upload.dart';
-import 'package:researchapp/ui/screens/view_cases.dart';
 
 void main() async {
   await Hive.initFlutter();

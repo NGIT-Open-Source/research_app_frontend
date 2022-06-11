@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:researchapp/constants.dart';
-import 'package:researchapp/models/sub_case_model.dart';
 import 'package:researchapp/ui/screens/add_case.dart';
 import 'package:researchapp/ui/screens/add_subcase.dart';
 import 'package:researchapp/ui/screens/addnewpatient.dart';
